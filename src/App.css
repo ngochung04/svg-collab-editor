@@ -1,0 +1,524 @@
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  /* padding: 2rem; */
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Fabric Canvas Editor Styles */
+.fabric-editor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.editor-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.pattern-name-input {
+  font-size: 1.5rem;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.editor-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.editor-tools button,
+.file-input-label {
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.editor-tools button:hover,
+.file-input-label:hover {
+  background-color: #e0e0e0;
+}
+
+.editor-tools button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.editor-tools button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.canvas-container {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  width: 100%;
+  height: 600px;
+}
+
+.canvas-container canvas {
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editor-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .editor-tools button,
+  .file-input-label {
+    width: 100%;
+  }
+}
+
+/* App Layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.app-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.app-header p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+.app-footer {
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Công cụ nâng cao */
+.tool-group {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.tool-group-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+  text-align: left;
+}
+
+.tool-group button {
+  margin-bottom: 5px;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+/* Menu chỉnh sửa đối tượng */
+.object-edit-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  min-width: 250px;
+}
+
+.edit-menu-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.control-label {
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.color-controls,
+.stroke-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.color-btn {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn-transparent {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+
+/* Màn hình nhỏ */
+@media (min-width: 768px) {
+  .editor-tools {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .tool-group {
+    width: 100%;
+  }
+
+  .object-edit-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 10px 10px 0 0;
+    padding: 15px;
+  }
+}
+
+/* Điểm điều khiển cho chế độ chỉnh sửa điểm */
+.control-point {
+  cursor: move;
+  z-index: 999;
+}
+
+/* Hiệu ứng hover khi di chuột qua điểm điều khiển */
+.control-point:hover {
+  fill: #ff4500;
+  transform: scale(1.2);
+}
+
+/* Đường kẻ giữa các điểm chỉnh sửa */
+.edit-line {
+  stroke-dasharray: 3, 3;
+  pointer-events: none;
+}
+
+/* Hiệu ứng khi chế độ chỉnh sửa điểm đang kích hoạt */
+.editing-points .canvas-container {
+  background-color: #f0f8ff;
+}
+
+/* Thanh công cụ mới đơn giản hóa */
+.editor-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+.main-tools,
+.view-tools {
+  display: flex;
+  gap: 5px;
+}
+
+.tool-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tool-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.tool-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tool-btn.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.tool-btn.primary-tool {
+  background-color: #e3f2fd;
+  border-color: #90caf9;
+}
+
+.tool-icon {
+  font-size: 18px;
+}
+
+/* Dropdown menu */
+.tool-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  width: 200px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.tool-dropdown:hover .dropdown-menu {
+  display: none;
+}
+
+.dropdown-group {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.dropdown-group-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #555;
+}
+
+.dropdown-group button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 5px 10px;
+  background: none;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.dropdown-group button:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-group button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Điều chỉnh menu chỉnh sửa đối tượng */
+.object-edit-menu {
+  width: auto;
+  min-width: 200px;
+}
+
+/* Điều chỉnh responsive */
+@media (max-width: 600px) {
+  .editor-toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .main-tools,
+  .view-tools {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* Chỉ dẫn chỉnh sửa điểm */
+.edit-mode-instructions {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 10;
+}
+
+.edit-mode-instructions p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Nút công cụ chỉnh sửa */
+.tool-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  background-color: #f0f0f0;
+}
+
+/* Nút hoàn tất khi đang chỉnh sửa */
+.tool-btn.edit-active {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* SVG Editor UI tối ưu giống trình chỉnh sửa ảnh */
+.svg-editor-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+  background: #f7f8fa;
+  min-height: 100vh;
+}
+
+.svg-toolbar {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.svg-toolbar button,
+.svg-toolbar .import-label {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.svg-toolbar button:hover,
+.svg-toolbar .import-label:hover {
+  background: #e3e8f0;
+}
+
+.svg-canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+.svg-canvas-box {
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  width: 500px;
+  height: 300px;
+  box-sizing: content-box;
+}
