@@ -25,7 +25,7 @@ const COLORS = [
 ];
 
 // Tạo tên người dùng và màu đại diện
-function getUser() {
+export function getUser() {
   const storedUser = localStorage.getItem("user");
   let name, color;
 
@@ -107,7 +107,7 @@ export function useRemoteCursor(props: Props = {}) {
     awareness.setLocalStateField("user", getUser());
   };
 
-  const updateCursors = () => {
+  const updateAwareness = () => {
     const states = Array.from(awareness.getStates().entries());
     const cursors: RemoteCursor[] = states
       .map(([clientId, state]: any) => {
@@ -165,12 +165,12 @@ export function useRemoteCursor(props: Props = {}) {
       isInitializedRef.current = true;
     }
 
-    awareness.on("change", updateCursors);
-    updateCursors();
+    awareness.on("change", updateAwareness);
+    updateAwareness();
     window.addEventListener("mousemove", handleUpdateCursor);
 
     return () => {
-      awareness.off("change", updateCursors);
+      awareness.off("change", updateAwareness);
       window.removeEventListener("mousemove", handleUpdateCursor);
 
       if (containerRef.current.parentNode) {

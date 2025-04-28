@@ -18,13 +18,18 @@ const yjsSync = ({ roomName, docKey }: YjsSyncProps) => {
     ymap.set("value", value);
   };
 
-  const on = (cb: any) => {
+  const onSync = (cb: any) => {
     listeners.push(cb);
   };
 
+  const getSyncedData = () => ymap.get("value");
+
   useEffect(() => {
     const callback = (events: any, transaction: Y.Transaction) => {
-      listeners.forEach((listener) => listener(events, transaction));
+      if (!transaction?.origin?.doc) return;
+      listeners.forEach((listener) =>
+        listener(getSyncedData(), events, transaction)
+      );
     };
 
     ymap.observeDeep(callback);
@@ -34,7 +39,7 @@ const yjsSync = ({ roomName, docKey }: YjsSyncProps) => {
     };
   }, []);
 
-  return { sync, on };
+  return { sync, onSync, getSyncedData };
 };
 
 export default yjsSync;

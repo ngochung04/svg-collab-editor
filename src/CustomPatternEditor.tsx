@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 // import SvgCanvas from "@svgedit/svgcanvas";
 import SvgCanvas from "./svgcanvas";
 import { useYjsSync } from "./hooks/useYjsSync";
+import { getUser } from "./hooks/useRemoteCursor";
+import yjsSync from "./hooks/synchorus";
 
 const width = document.documentElement.clientWidth;
 const height = document.documentElement.clientHeight;
@@ -16,9 +18,9 @@ const config = {
   imgPath: "/src/editor/images",
   dimensions: [width, height],
   baseUnit: "px",
-  // height: "100%",
-  // width: "100%",
 };
+
+const { name, color } = getUser();
 
 const CustomPatternEditor: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,11 +32,10 @@ const CustomPatternEditor: React.FC = () => {
     "room-1",
     ""
   );
-  const [syncSelectData, setSyncSelectData] = useYjsSync(
-    "select-editor",
-    "room-1",
-    { select: false, array: [] as any[] }
-  );
+  const { sync, onSync } = yjsSync({
+    roomName: "abc",
+    docKey: "room-1",
+  });
 
   // hàm so sánh những thay đổi từ svgString cũ và mới
   const svgDiffChange = (oldSvg: string, newSvg: string) => {};
@@ -58,38 +59,56 @@ const CustomPatternEditor: React.FC = () => {
     }
   }, [canvasRef.current?.getSvgString()]);
 
-  const selectRef = useRef<any>([]);
+  const selectRef = useRef({});
 
   useEffect(() => {
-    
-  }, [syncSelectData]);
+    const handleSyncSelector = () => {
+      const editor = canvasRef.current;
+      if (!editor) return;
 
-  useEffect(() => {
-    const editor = canvasRef.current;
-    if (
-      editor &&
-      (!!editor.getSelectedElements().length ||
-        !!editor.getIntersectionList().length)
-    ) {
-      const newSelector =
-        editor.selectorManager.selectors.map((item) => {
+      const selectors = editor.selectorManager.selectors;
+
+      const selectItem = selectors.reduce(
+        (acc, cur) => {
           return {
-            groupId: item.selectorGroup.id,
-            rectId: item.selectorRect.id,
+            ...acc,
+            selection: [...acc.selection, cur.selectedElement.id],
+            react: [...acc.react, cur.selectorRect.id],
+            group: [...acc.group, cur.selectorGroup.id],
           };
-        }) || [];
+        },
+        {
+          selection: [],
+          react: [],
+          group: [],
+        }
+      );
 
-      if (newSelector === selectRef.current) return;
-      setSyncSelectData({ select: true, array: newSelector });
-    } else {
-      // selectRef.current
-      // setSyncSelectData({ select: false, array: selectRef.current });
-    }
-  }, [
-    canvasRef.current?.getSelectedElements(),
-    canvasRef.current?.getIntersectionList(),
-    canvasRef.current?.getJustSelected(),
-  ]);
+      const syncData = {
+        ...selectItem,
+        length: selectItem.selection.filter((x) => !!x).length,
+        name,
+        color,
+      };
+
+      sync(syncData);
+    };
+
+    onSync((data) => {
+      data.selection.forEach((id) => {
+        const element = document.getElementById(id);
+
+        if (element) {
+          canvasRef.current?.addToSelection([element]);
+        }
+      });
+    });
+
+    containerRef.current?.addEventListener("mouseup", handleSyncSelector);
+    return () => {
+      containerRef.current?.removeEventListener("mouseup", handleSyncSelector);
+    };
+  }, []);
 
   useEffect(() => {
     if (containerRef.current && !canvasRef.current) {
